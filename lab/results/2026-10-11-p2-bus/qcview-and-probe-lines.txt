@@ -1,0 +1,49 @@
+### QCView dev build 5f5ea6f1, macOS, qcvo-probe registered as output 'probe' (manifest via QCV_OUTPUT_MANIFEST_DIR), clip probe-51-720p25.mov, autoplay — bus, renderer and probe lines (the probe's stdout is forwarded into QCView's log)
+4:OutputBus: output 'probe' (qcvo-probe (dev)) from /private/tmp/claude-501/-Users-chris-Documents-GitHub-QCBridgeAE/6add1400-f89f-4f49-a39a-9af92b9d6469/scratchpad/outputs/probe.json
+33:OutputBus: probe enabled — rings /qcview-out-probe, audio ring beside it
+34:MetalPlayerRenderer: 1 output target(s)
+35:OutputBus: probe: started /Users/chris/Documents/GitHub/QCBridgeN/build/qcvo-probe consume --id probe --seconds 100000 --dump /private/tmp/claude-501/-Users-chris-Documents-GitHub-QCBridgeAE/6add1400-f89f-4f49-a39a-9af92b9d6469/scratchpad/qcvo-last.ppm --status qcvo-probe attached
+36:MetalPlayerRenderer: 1 output target(s)
+39:opened /qcview-out-probe: producer pid 74557 (alive), protocol 1, launched-by-producer yes, audio ring open
+40:request: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+41:audio session: 48000 Hz, 2 ch, flags 0x0
+48:OutputBus: probe: request 1 (1920x1080 fmt 1 transfer 1 content 1 layers 0x3) -> accepted "1920x1080 BGRA8 SDR from QCView"
+49:OutputBus: probe: sink attached (pid 74559)
+50:reply: accepted 1920x1080 BGRA8 transfer 1 content 1 layers 0x3 "1920x1080 BGRA8 SDR from QCView"
+85:MetalPlayerRenderer: output pass 1920x1080 BGRA8 (content 1, layers 0x3)
+86:frame seq 1: 1920x1080 BGRA8 row 7680 content 1 layers 0x0 flags 0x1 pts 0.610 s src #0 @ 25/1 tc 00000000  centre bytes db 35 29 ff
+87:t=  1.0 s  frames 1  audio packets 0 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+88:t=  2.0 s  frames 1  audio packets 0 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+89:QCV_AUTOPLAY_SECONDS: play
+91:MetalPlayerRenderer: output publish (1 so far): changed frames srcA
+93:t=  3.0 s  frames 4  audio packets 4 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+94:MetalPlayerRenderer: output publish (26 so far): changed frames srcA
+95:t=  4.0 s  frames 29  audio packets 98 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+97:MetalPlayerRenderer: output publish (51 so far): changed frames srcA
+98:t=  5.0 s  frames 54  audio packets 191 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+99:MetalPlayerRenderer: output publish (76 so far): changed frames srcA
+100:t=  6.0 s  frames 80  audio packets 285 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+101:frame seq 100: 1920x1080 BGRA8 row 7680 content 1 layers 0x0 flags 0x1 pts 6.793 s src #99 @ 25/1 tc 00000000  centre bytes db 35 29 ff
+103:MetalPlayerRenderer: output publish (102 so far): changed frames srcA
+104:t=  7.0 s  frames 105  audio packets 379 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+105:MetalPlayerRenderer: output publish (127 so far): changed frames srcA
+106:t=  8.0 s  frames 130  audio packets 473 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+108:MetalPlayerRenderer: output publish (152 so far): changed frames srcA
+109:t=  9.0 s  frames 155  audio packets 567 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+110:MetalPlayerRenderer: output publish (177 so far): changed frames srcA
+111:t= 10.0 s  frames 180  audio packets 661 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+112:frame seq 200: 1920x1080 BGRA8 row 7680 content 1 layers 0x0 flags 0x1 pts 10.793 s src #199 @ 25/1 tc 00000000  centre bytes db 35 29 ff
+114:MetalPlayerRenderer: output publish (203 so far): changed frames srcA
+115:t= 11.0 s  frames 205  audio packets 755 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+116:MetalPlayerRenderer: output publish (228 so far): changed frames srcA
+117:t= 12.0 s  frames 230  audio packets 849 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+118:MetalPlayerRenderer: output publish (253 so far): changed frames srcA
+120:t= 13.0 s  frames 255  audio packets 943 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+121:MetalPlayerRenderer: output publish (279 so far): changed frames srcA
+122:t= 14.0 s  frames 280  audio packets 1037 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+123:frame seq 300: 1920x1080 BGRA8 row 7680 content 1 layers 0x0 flags 0x1 pts 14.793 s src #299 @ 25/1 tc 00000000  centre bytes db 35 29 ff
+126:MetalPlayerRenderer: output publish (304 so far): changed frames srcA
+127:t= 15.0 s  frames 305  audio packets 1130 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+128:t= 16.0 s  frames 330  audio packets 1224 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+129:MetalPlayerRenderer: output publish (330 so far): changed frames srcA
+131:stopped: producer is dead (pid gone). 350 frames in 16.18 s = 21.56 fps, 1299 audio packets, 0 gaps, 0 dropped, 0 muted; request accepted

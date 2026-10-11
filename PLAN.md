@@ -163,7 +163,14 @@ a test before either real side exists. Unit tests beside the audio ring
 tests. Exit: tests pass on both OSes (tracker items in
 `lab/TRACKING-windows.md`).
 
-**P2 — The bus in QCView, macOS first.** Output pass on the render
+**P2 — The bus in QCView, macOS first. LANDED 2026-10-11** (QCView
+`5f5ea6f1`, measured in `lab/results/2026-10-11-p2-bus/`; the Windows
+build of the same commit passes on the box, its D3D11 output pass is
+owed — tracker). Still open inside P2: timecode in the stamp, the Native
+fit, RGBA16F and the HDR transfers, SideB when the window is in dual, the
+per-output display/view override, audio cadence while the transport is
+paused (the device stops, so no packets flow), and a cost figure for the
+pass on the GPU. Output pass on the render
 thread: when a request is accepted and the heartbeat is fresh, run the
 capture chain per changed frame at the requested raster into the slot,
 Metal buffer over the mapped slot, no copy. Change detection as a content
