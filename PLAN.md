@@ -204,7 +204,15 @@ plugin measured; behaviour across QCView quit and relaunch recorded.
 same audio tap, the plugin with the NDI Runtime installed. Tracker items
 from the day P2 lands, run from the Mac seat.
 
-**P5 — Packaging and release.** Application installers (pkg, Setup)
+**P5 — Packaging and release. macOS LANDED 2026-10-11:** `QCBridgeN.app`
+(LSUIElement, icns from the SVG mark via `tools/svg2png`, the NDI runtime
+in Contents/Frameworks with its licence text in Resources), the menu-bar
+template icons (live / faded idle), a Settings dialog from the tray,
+`packaging/macos/build-pkg.sh` (macdeployqt, inside-out signing with the
+Developer ID when present, pkg with pre/postinstall that registers
+`/Library/Application Support/QCView/Outputs/ndi.json`), `notarize.sh`,
+`uninstall.command`. Notarizing and publishing are the owner's; Windows
+packaging (Inno, `%ProgramData%` manifest) comes with P4. Application installers (pkg, Setup)
 carrying only the redistributable runtime files the SDK documentation
 names, writing the registration from O12; a QCView release that includes
 the bus; docs page. The release gate is the same as before: nothing ships until both

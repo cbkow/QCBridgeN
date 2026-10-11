@@ -1,0 +1,14 @@
+QCBridgeN sends what QCView shows and plays to the network as an NDI® source.
+
+This installs QCBridgeN.app in /Applications and registers it with QCView
+(/Library/Application Support/QCView/Outputs/ndi.json). Afterwards, in
+QCView, open Settings ▸ Output and switch "QCBridgeN (NDI)" on: QCView
+starts QCBridgeN, which appears in the menu bar, and the source "QCView"
+appears to NDI receivers on the network. Nothing is sent until the switch
+is on.
+
+The NDI runtime is included in the application. QCView 2.5.4 or later is
+required.
+
+NDI® is a registered trademark of Vizrt NDI AB. QCBridgeN is compatible
+with NDI products; it is not an NDI product.

@@ -17,6 +17,15 @@ reports what arrives over NDI:
     build/QCBridgeN --id ndi --name QCView          # the sink (needs the NDI runtime)
     build/ndi-recv --name QCView --seconds 10        # what a receiver sees
 
+## Installing (macOS)
+
+`packaging/macos/build-pkg.sh` makes `dist/QCBridgeN-<version>-arm64.pkg`
+from `build/QCBridgeN.app`: Qt deployed, signed with the Developer ID in
+the keychain (unsigned for local testing when there is none), the NDI
+runtime inside the app. The installer puts the app in /Applications and
+registers it with QCView; `packaging/macos/notarize.sh` notarizes and
+staples; `packaging/macos/uninstall.command` removes both.
+
 QCView starts the sink itself when the output is enabled in Settings ▸
 Output, from a manifest in Application Support/QCView/Outputs (or the
 directory `QCV_OUTPUT_MANIFEST_DIR` names, for development):

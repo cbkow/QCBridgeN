@@ -11,34 +11,47 @@
 
 #include "bus_sink.h"
 #include "ndi_lib.h"
+#include "settings_dialog.h"
 
 #include <QAction>
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QIcon>
 #include <QMenu>
-#include <QPainter>
-#include <QPixmap>
 #include <QSettings>
 #include <QSystemTrayIcon>
 #include <QTimer>
 
 #include <cstdio>
+#include <memory>
 
 namespace {
 
+// The menu-bar mark: on macOS a template image (black with alpha) that the
+// system tints for light and dark menu bars, live = full, idle = faded;
+// elsewhere the coloured mark.
 QIcon makeIcon(bool live)
 {
-    QPixmap pm(44, 44);
-    pm.fill(Qt::transparent);
-    QPainter p(&pm);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.setPen(QPen(QColor(live ? "#4cb050" : "#888888"), 4));
-    p.setBrush(Qt::NoBrush);
-    p.drawRoundedRect(6, 10, 32, 24, 4, 4);
-    p.setBrush(QColor(live ? "#4cb050" : "#888888"));
-    p.drawEllipse(QPoint(22, 22), 5, 5);
-    return QIcon(pm);
+#if defined(Q_OS_MACOS)
+    QIcon icon(live ? QStringLiteral(":/icons/tray-mac-live.png") : QStringLiteral(":/icons/tray-mac-idle.png"));
+    icon.setIsMask(true);
+    return icon;
+#else
+    Q_UNUSED(live);
+    return QIcon(QStringLiteral(":/icons/tray-win-64.png"));
+#endif
+}
+
+void saveConfig(const SinkConfig &cfg)
+{
+    QSettings settings;
+    settings.setValue("id", QString::fromStdString(cfg.id));
+    settings.setValue("sourceName", QString::fromStdString(cfg.sourceName));
+    settings.setValue("raster", QStringLiteral("%1x%2").arg(cfg.width).arg(cfg.height));
+    settings.setValue("content", cfg.content == qcbae::OutputContent::SideA ? "a"
+                               : cfg.content == qcbae::OutputContent::SideB ? "b" : "composite");
+    settings.setValue("guides", (cfg.layers & qcbae::kOutputLayerGuides) != 0u);
+    settings.setValue("annotations", (cfg.layers & qcbae::kOutputLayerAnnotations) != 0u);
 }
 
 } // namespace
@@ -78,11 +91,7 @@ int main(int argc, char **argv)
                 : content == "b" ? qcbae::OutputContent::SideB : qcbae::OutputContent::Composite;
     if (cli.isSet("no-guides") || !settings.value("guides", true).toBool()) cfg.layers &= ~qcbae::kOutputLayerGuides;
     if (cli.isSet("no-annotations") || !settings.value("annotations", true).toBool()) cfg.layers &= ~qcbae::kOutputLayerAnnotations;
-    // What the command line set becomes the default next time.
-    settings.setValue("id", QString::fromStdString(cfg.id));
-    settings.setValue("sourceName", QString::fromStdString(cfg.sourceName));
-    settings.setValue("raster", raster);
-    settings.setValue("content", content);
+    saveConfig(cfg);   // what the command line set becomes the default next time
 
     NdiLib ndi;
     std::string err;
@@ -92,8 +101,11 @@ int main(int argc, char **argv)
     }
     std::printf("QCBridgeN %s: NDI runtime %s\n", QCBRIDGEN_VERSION, ndi.version().c_str());
 
-    BusSink sink(ndi, cfg);
-    sink.setQuitRequest([] { QMetaObject::invokeMethod(qApp, &QCoreApplication::quit, Qt::QueuedConnection); });
+    auto quitRequest = [] { QMetaObject::invokeMethod(qApp, &QCoreApplication::quit, Qt::QueuedConnection); };
+    auto sinkPtr = std::make_unique<BusSink>(ndi, cfg);
+    sinkPtr->setQuitRequest(quitRequest);
+    BusSink *sinkRaw = sinkPtr.get();
+    auto sinkRef = [&sinkRaw]() -> BusSink & { return *sinkRaw; };
 
     QSystemTrayIcon *tray = nullptr;
     QAction *stateAct = nullptr, *detailAct = nullptr;
@@ -106,6 +118,24 @@ int main(int argc, char **argv)
                                         .arg(QString::fromStdString(cfg.sourceName), raster, QString::fromStdString(cfg.id)));
         detailAct->setEnabled(false);
         menu->addSeparator();
+        QAction *settingsAct = menu->addAction(QStringLiteral("Settings…"));
+        QObject::connect(settingsAct, &QAction::triggered, [&] {
+            SettingsDialog dlg(cfg);
+            if (dlg.exec() != QDialog::Accepted) return;
+            cfg = dlg.config();
+            saveConfig(cfg);
+            // Restart the attach so the new request goes out; the NDI
+            // source is re-created under the new name.
+            sinkPtr->stop();
+            sinkPtr = std::make_unique<BusSink>(ndi, cfg);
+            sinkPtr->setQuitRequest(quitRequest);
+            sinkRaw = sinkPtr.get();
+            sinkPtr->start();
+            detailAct->setText(QStringLiteral("NDI '%1' · %2x%3 · id %4")
+                                   .arg(QString::fromStdString(cfg.sourceName)).arg(cfg.width).arg(cfg.height)
+                                   .arg(QString::fromStdString(cfg.id)));
+        });
+        menu->addSeparator();
         QAction *quit = menu->addAction(QStringLiteral("Quit QCBridgeN"));
         QObject::connect(quit, &QAction::triggered, &app, &QCoreApplication::quit);
         tray->setContextMenu(menu);
@@ -113,13 +143,13 @@ int main(int argc, char **argv)
         tray->show();
     }
 
-    sink.start();
+    sinkPtr->start();
 
     QTimer refresh;
     refresh.setInterval(1000);
     bool wasLive = false;
     QObject::connect(&refresh, &QTimer::timeout, [&] {
-        const SinkStats s = sink.stats();
+        const SinkStats s = sinkRef().stats();
         const bool live = s.producerAlive && s.frames > 0;
         if (tray) {
             if (live != wasLive) { tray->setIcon(makeIcon(live)); wasLive = live; }
@@ -136,8 +166,8 @@ int main(int argc, char **argv)
     }
 
     const int rc = app.exec();
-    sink.stop();
-    const SinkStats s = sink.stats();
+    sinkRef().stop();
+    const SinkStats s = sinkRef().stats();
     std::printf("QCBridgeN: done — %llu frames, %llu audio packets (%llu gaps, %llu dropped), last %d receiver%s\n",
                 static_cast<unsigned long long>(s.frames), static_cast<unsigned long long>(s.audioPackets),
                 static_cast<unsigned long long>(s.audioGaps), static_cast<unsigned long long>(s.audioDropped),

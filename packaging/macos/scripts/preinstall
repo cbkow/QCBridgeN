@@ -1,0 +1,8 @@
+#!/bin/bash
+# QCBridgeN installer — preinstall (root). A running copy would keep the
+# old binary mapped and the pkg would install beside a live process; ask it
+# to quit, then replace the app whole.
+pkill -x QCBridgeN 2>/dev/null || true
+sleep 1
+rm -rf "/Applications/QCBridgeN.app"
+exit 0

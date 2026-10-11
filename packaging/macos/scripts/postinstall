@@ -1,0 +1,14 @@
+#!/bin/bash
+# QCBridgeN installer — postinstall (root). Registers the app with QCView
+# (QCBridgeN/PLAN.md O12): a manifest QCView lists under Settings ▸ Output.
+# Replace, never merge: the installer is the only source of this file.
+set -e
+DIR="/Library/Application Support/QCView/Outputs"
+mkdir -p "$DIR"
+cat > "$DIR/ndi.json" <<'EOF'
+{ "id": "ndi", "name": "QCBridgeN (NDI)", "protocol": 1,
+  "exec": "/Applications/QCBridgeN.app/Contents/MacOS/QCBridgeN",
+  "args": ["--id", "ndi"] }
+EOF
+chmod 644 "$DIR/ndi.json"
+exit 0
