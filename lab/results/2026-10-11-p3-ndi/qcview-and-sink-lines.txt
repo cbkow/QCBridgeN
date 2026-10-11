@@ -1,0 +1,36 @@
+### QCView dev build 5f5ea6f1 with QCBridgeN f422ca3 registered as output 'ndi'; QCBridgeN's stdout is forwarded into QCView's log
+4:OutputBus: output 'ndi' (QCBridgeN (NDI)) from /private/tmp/claude-501/-Users-chris-Documents-GitHub-QCBridgeAE/6add1400-f89f-4f49-a39a-9af92b9d6469/scratchpad/outputs/ndi.json
+34:OutputBus: ndi enabled — rings /qcview-out-ndi, audio ring beside it
+36:OutputBus: ndi: started /Users/chris/Documents/GitHub/QCBridgeN/build/QCBridgeN --id ndi --name QCView
+80:OutputBus: ndi: request 1 (1920x1080 fmt 1 transfer 1 content 1 layers 0x3) -> accepted "1920x1080 BGRA8 SDR from QCView"
+81:OutputBus: ndi: sink attached (pid 78099)
+82:MetalPlayerRenderer: output pass 1920x1080 BGRA8 (content 1, layers 0x3)
+85:MetalPlayerRenderer: output publish (1 so far): changed frames srcA
+87:MetalPlayerRenderer: output publish (26 so far): changed frames srcA
+89:MetalPlayerRenderer: output publish (52 so far): changed frames srcA
+90:MetalPlayerRenderer: output publish (77 so far): changed frames srcA
+92:MetalPlayerRenderer: output publish (103 so far): changed frames srcA
+93:MetalPlayerRenderer: output publish (128 so far): changed frames srcA
+95:MetalPlayerRenderer: output publish (154 so far): changed frames srcA
+96:MetalPlayerRenderer: output publish (179 so far): changed frames srcA
+98:MetalPlayerRenderer: output publish (204 so far): changed frames srcA
+99:MetalPlayerRenderer: output publish (230 so far): changed frames srcA
+101:MetalPlayerRenderer: output publish (255 so far): changed frames srcA
+102:MetalPlayerRenderer: output publish (281 so far): changed frames srcA
+105:MetalPlayerRenderer: output publish (306 so far): changed frames srcA
+106:MetalPlayerRenderer: output publish (332 so far): changed frames srcA
+108:MetalPlayerRenderer: output publish (358 so far): changed frames srcA
+109:MetalPlayerRenderer: output publish (384 so far): changed frames srcA
+111:MetalPlayerRenderer: output publish (410 so far): changed frames srcA
+112:QCBridgeN 0.0.1: NDI runtime NDI SDK APPLE 12:49:17 Apr 13 2026 6.3.2.0
+113:QCBridgeN: NDI source 'QCView' (runtime NDI SDK APPLE 12:49:17 Apr 13 2026 6.3.2.0 at /Library/NDI SDK for Apple/lib/macOS/libndi.dylib)
+114:QCBridgeN: waiting for QCView (/qcview-out-ndi)
+115:QCBridgeN: attached to /qcview-out-ndi (producer pid 78097, started by QCView, audio ring open)
+116:QCBridgeN: attached, waiting for the reply
+117:QCBridgeN: accepted 1920x1080 "1920x1080 BGRA8 SDR from QCView"
+118:QCBridgeN: NDI 'QCView': 0 receivers
+119:QCBridgeN: NDI 'QCView': 1 receiver
+120:QCBridgeN: NDI 'QCView': 0 receivers
+121:QCBridgeN: QCView is gone
+122:QCBridgeN: quitting (started by QCView)
+123:QCBridgeN: done — 420 frames, 1562 audio packets (0 gaps, 0 dropped), last 0 receivers

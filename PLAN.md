@@ -185,7 +185,12 @@ of the same frame; audio continuity counter unbroken across play, pause,
 seek and mute; measured cost per frame at 1080p and UHD; measured zero
 cost with no output enabled.
 
-**P3 — QCBridgeN, the NDI sink, macOS first.** Ring reader (vendored),
+**P3 — QCBridgeN, the NDI sink, macOS first. LANDED 2026-10-11**
+(`f422ca3`, `lab/results/2026-10-11-p3-ndi/`: a second process received
+1920x1080 at 25.07 fps and 48 kHz stereo over NDI, the frame is the clip,
+the sink quit with QCView). Open: real timecode, the async send, a
+settings window or manifest-declared settings, the app bundle and
+installer (P5), Windows (after P4's D3D11 pass). Ring reader (vendored),
 request 1080p BGRA8 SDR letterbox by default (configurable), NDI send of
 video and audio with the stamps, async send on the slot pointer, runtime
 loaded dynamically from the SDK's redist location, reconnect when QCView
