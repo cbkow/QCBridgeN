@@ -1,5 +1,5 @@
 // Vendored from QCBridgeAE (github.com/cbkow/QCBridgeAE, MIT — see its
-// src/common/LICENSE) at 5849977, src/common/protocol/audio_desc.h. The wire contract of QCView's
+// src/common/LICENSE) at 3d7de5b, src/common/protocol/audio_desc.h. The wire contract of QCView's
 // output bus; keep in sync by re-copying, never by editing here.
 
 // SPDX-License-Identifier: MIT OR GPL-3.0-or-later

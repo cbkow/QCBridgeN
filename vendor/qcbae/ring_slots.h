@@ -1,5 +1,5 @@
 // Vendored from QCBridgeAE (github.com/cbkow/QCBridgeAE, MIT — see its
-// src/common/LICENSE) at 5849977, src/common/surface/ring_slots.h. The wire contract of QCView's
+// src/common/LICENSE) at 3d7de5b, src/common/surface/ring_slots.h. The wire contract of QCView's
 // output bus; keep in sync by re-copying, never by editing here.
 
 // SPDX-License-Identifier: MIT OR GPL-3.0-or-later
@@ -29,6 +29,10 @@
 // carry the atomic `seq` and a `desc` of the ring's descriptor type. The
 // functions are templates over those two so each ring keeps its own wire
 // layout; the frame ring's header is a shipped contract and has not moved.
+//
+// The namespace is `ringslot`, not `slots`: QCView vendors these files and
+// Qt defines `slots` (and `signals`, `emit`) as macros, so that name would
+// not survive a Qt translation unit.
 
 #pragma once
 
@@ -54,7 +58,7 @@ inline constexpr uint64_t pack_latest(uint64_t seq, uint32_t slot) {
 inline constexpr uint64_t latest_seq(uint64_t packed)  { return packed >> kSlotBits; }
 inline constexpr uint32_t latest_slot(uint64_t packed) { return static_cast<uint32_t>(packed & kSlotMask); }
 
-namespace slots {
+namespace ringslot {
 
 template <class Header, class Slot>
 inline Slot* slot_at(void* base, const Header* h, uint32_t index) {
@@ -195,5 +199,5 @@ inline bool read_record(const std::atomic<uint64_t>* lock, const std::atomic<uin
     return false;
 }
 
-}  // namespace slots
+}  // namespace ringslot
 }  // namespace qcbae
