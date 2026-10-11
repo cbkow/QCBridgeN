@@ -1,7 +1,7 @@
 ### QCView dev build 5f5ea6f1 with QCBridgeN f422ca3 registered as output 'ndi'; QCBridgeN's stdout is forwarded into QCView's log
-4:OutputBus: output 'ndi' (QCBridgeN (NDI)) from /private/tmp/claude-501/-Users-chris-Documents-GitHub-QCBridgeAE/6add1400-f89f-4f49-a39a-9af92b9d6469/scratchpad/outputs/ndi.json
+4:OutputBus: output 'ndi' (QCBridgeN (NDI)) from <scratch>/outputs/ndi.json
 34:OutputBus: ndi enabled — rings /qcview-out-ndi, audio ring beside it
-36:OutputBus: ndi: started /Users/chris/Documents/GitHub/QCBridgeN/build/QCBridgeN --id ndi --name QCView
+36:OutputBus: ndi: started <GitHub>/QCBridgeN/build/QCBridgeN --id ndi --name QCView
 80:OutputBus: ndi: request 1 (1920x1080 fmt 1 transfer 1 content 1 layers 0x3) -> accepted "1920x1080 BGRA8 SDR from QCView"
 81:OutputBus: ndi: sink attached (pid 78099)
 82:MetalPlayerRenderer: output pass 1920x1080 BGRA8 (content 1, layers 0x3)

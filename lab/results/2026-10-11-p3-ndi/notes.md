@@ -14,7 +14,7 @@ the NDI stream and reported what arrived.
 - QCView started the sink from a manifest (`exec` = `build/QCBridgeN`,
   args `--id ndi --name QCView`) when the output was enabled; the
   tray item showed while it ran.
-- `ndi-recv` (tools/) found the source `NY-SW04.LOCALDOMAIN (QCView)`,
+- `ndi-recv` (tools/) found the source `<this-mac> (QCView)`,
   connected at highest bandwidth with BGRX/BGRA colour, and captured for
   14 s while QCView autoplayed the 25 fps 1080p-from-720p clip.
 

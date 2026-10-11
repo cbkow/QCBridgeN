@@ -12,7 +12,19 @@
 # timestamp) and the pkg with the Developer ID Installer identity. Same
 # shape as QCBridgeAE's and QCView's. Unsigned when no identity is in the
 # keychain (local testing only).
+#
+#   packaging/macos/build-pkg.sh [--notarize]
+#
+# --notarize submits the signed app to Apple first and staples it (the copy
+# that lands in /Applications must carry its own ticket — QCView's release
+# notes record the release that went out without one), then builds the pkg
+# from the stapled app and notarizes and staples the pkg too. Two
+# submissions, 2–15 minutes each. Needs the "QCView" notarytool keychain
+# profile (QCBN_NOTARY_PROFILE overrides).
 set -euo pipefail
+NOTARIZE=0
+[ "${1:-}" = "--notarize" ] && NOTARIZE=1
+PROFILE="${QCBN_NOTARY_PROFILE:-QCView}"
 REPO="$(cd "$(dirname "$0")/../.." && pwd)"
 SRC="$REPO/packaging/macos"
 BUILT_APP="${QCBN_APP:-$REPO/build/QCBridgeN.app}"
@@ -86,7 +98,25 @@ if [ -n "$identity" ]; then
         | while IFS= read -r -d '' f; do sign "$f"; done
     sign --entitlements "$SRC/entitlements.plist" "$APP"
     codesign --verify --deep --strict "$APP"
+    if [ "$NOTARIZE" = 1 ]; then
+        xcrun notarytool history --keychain-profile "$PROFILE" >/dev/null 2>&1 \
+            || { echo "ERROR: notarytool cannot use profile \"$PROFILE\"" >&2; exit 1; }
+        echo "[pkg] notarizing the app (profile $PROFILE)"
+        ditto -c -k --keepParent "$APP" "$STAGE/app.zip"
+        xcrun notarytool submit "$STAGE/app.zip" --keychain-profile "$PROFILE" --wait --output-format json > "$STAGE/app-notary.json"
+        app_status="$(/usr/bin/python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("status",""))' "$STAGE/app-notary.json")"
+        app_id="$(/usr/bin/python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("id",""))' "$STAGE/app-notary.json")"
+        if [ "$app_status" != "Accepted" ]; then
+            echo "ERROR: app notarization $app_status (id $app_id):" >&2
+            xcrun notarytool log "$app_id" --keychain-profile "$PROFILE" >&2 || true
+            exit 1
+        fi
+        xcrun stapler staple "$APP"
+        xcrun stapler validate "$APP"
+        echo "[pkg] app notarized and stapled (id $app_id)"
+    fi
 else
+    [ "$NOTARIZE" = 1 ] && { echo "ERROR: --notarize needs a Developer ID Application identity" >&2; exit 1; }
     echo "WARN: no Developer ID Application identity — UNSIGNED app (local testing only)" >&2
 fi
 
@@ -121,4 +151,20 @@ else
     productbuild --distribution "$STAGE/distribution.xml" --package-path "$STAGE/pkgs" \
                  --resources "$STAGE/resources" "$PKG" >/dev/null
 fi
+if [ "$NOTARIZE" = 1 ]; then
+    [ -n "$installer_id" ] || { echo "ERROR: --notarize needs a Developer ID Installer identity" >&2; exit 1; }
+    echo "[pkg] notarizing the pkg"
+    xcrun notarytool submit "$PKG" --keychain-profile "$PROFILE" --wait --output-format json > "$STAGE/pkg-notary.json"
+    pkg_status="$(/usr/bin/python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("status",""))' "$STAGE/pkg-notary.json")"
+    pkg_id="$(/usr/bin/python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("id",""))' "$STAGE/pkg-notary.json")"
+    if [ "$pkg_status" != "Accepted" ]; then
+        echo "ERROR: pkg notarization $pkg_status (id $pkg_id):" >&2
+        xcrun notarytool log "$pkg_id" --keychain-profile "$PROFILE" >&2 || true
+        exit 1
+    fi
+    xcrun stapler staple "$PKG"
+    xcrun stapler validate "$PKG"
+    echo "[pkg] pkg notarized and stapled (id $pkg_id)"
+fi
 echo "[pkg] done: $PKG ($(du -sh "$PKG" | cut -f1))"
+shasum -a 256 "$PKG"

@@ -22,7 +22,7 @@ t=  1.0 s  frames 26  audio packets 47 (gaps 0, dropped 0, muted 0)  producer al
 t=  2.0 s  frames 51  audio packets 94 (gaps 0, dropped 0, muted 0)  producer alive  state 0
 t=  3.0 s  frames 76  audio packets 141 (gaps 0, dropped 0, muted 0)  producer alive  state 0
 frame seq 100: 1920x1080 BGRA8 row 7680 content 1 layers 0x3 flags 0x11 pts 3.921 s src #99 @ 25/1 tc 00000318  centre bytes ff 00 ff ff
-dumped the last frame to /private/tmp/claude-501/-Users-chris-Documents-GitHub-QCBridgeAE/6add1400-f89f-4f49-a39a-9af92b9d6469/scratchpad/probe/last.ppm
+dumped the last frame to <scratch>/probe/last.ppm
 stopped: time is up. 101 frames in 3.964 s = 25.22 fps, 187 audio packets, 0 gaps, 0 dropped, 0 muted; request accepted
 
 ### run 2 — producer

@@ -1,4 +1,4 @@
-found 'NY-SW04.LOCALDOMAIN (QCView)' at 127.0.0.1:5961
+found '<this-mac> (QCView)' at 127.0.0.1:5961
 t= 1.0 s  video 26 (+26)  1920x1080 @ 25/1  centre BGRA d0 36 21 ff  audio frames 94 samples 48128  connections 1
 t= 2.0 s  video 51 (+25)  1920x1080 @ 25/1  centre BGRA d0 36 21 ff  audio frames 188 samples 96256  connections 1
 t= 3.0 s  video 76 (+25)  1920x1080 @ 25/1  centre BGRA d0 36 21 ff  audio frames 282 samples 144384  connections 1
@@ -12,5 +12,5 @@ t=10.0 s  video 252 (+26)  1920x1080 @ 25/1  centre BGRA d0 36 21 ff  audio fram
 t=11.0 s  video 277 (+25)  1920x1080 @ 25/1  centre BGRA d0 36 21 ff  audio frames 1034 samples 529408  connections 1
 t=12.0 s  video 302 (+25)  1920x1080 @ 25/1  centre BGRA d0 36 21 ff  audio frames 1128 samples 577536  connections 1
 t=13.0 s  video 327 (+25)  1920x1080 @ 25/1  centre BGRA d0 36 21 ff  audio frames 1222 samples 625664  connections 1
-dumped the last frame to /private/tmp/claude-501/-Users-chris-Documents-GitHub-QCBridgeAE/6add1400-f89f-4f49-a39a-9af92b9d6469/scratchpad/ndi-recv-last.ppm
+dumped the last frame to <scratch>/ndi-recv-last.ppm
 done: 351 video frames in 14.0 s = 25.07 fps, 1313 audio frames, 672256 samples

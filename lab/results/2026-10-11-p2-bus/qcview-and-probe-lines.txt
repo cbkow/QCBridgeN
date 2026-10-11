@@ -1,8 +1,8 @@
 ### QCView dev build 5f5ea6f1, macOS, qcvo-probe registered as output 'probe' (manifest via QCV_OUTPUT_MANIFEST_DIR), clip probe-51-720p25.mov, autoplay — bus, renderer and probe lines (the probe's stdout is forwarded into QCView's log)
-4:OutputBus: output 'probe' (qcvo-probe (dev)) from /private/tmp/claude-501/-Users-chris-Documents-GitHub-QCBridgeAE/6add1400-f89f-4f49-a39a-9af92b9d6469/scratchpad/outputs/probe.json
+4:OutputBus: output 'probe' (qcvo-probe (dev)) from <scratch>/outputs/probe.json
 33:OutputBus: probe enabled — rings /qcview-out-probe, audio ring beside it
 34:MetalPlayerRenderer: 1 output target(s)
-35:OutputBus: probe: started /Users/chris/Documents/GitHub/QCBridgeN/build/qcvo-probe consume --id probe --seconds 100000 --dump /private/tmp/claude-501/-Users-chris-Documents-GitHub-QCBridgeAE/6add1400-f89f-4f49-a39a-9af92b9d6469/scratchpad/qcvo-last.ppm --status qcvo-probe attached
+35:OutputBus: probe: started <GitHub>/QCBridgeN/build/qcvo-probe consume --id probe --seconds 100000 --dump <scratch>/qcvo-last.ppm --status qcvo-probe attached
 36:MetalPlayerRenderer: 1 output target(s)
 39:opened /qcview-out-probe: producer pid 74557 (alive), protocol 1, launched-by-producer yes, audio ring open
 40:request: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
