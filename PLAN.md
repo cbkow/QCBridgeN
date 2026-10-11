@@ -66,17 +66,44 @@ way the other repos do it.
   texture, Map, one memcpy. The plugin hands the slot pointer to the SDK.
   Cross-process GPU sharing only relocates the readback, because every
   sink in view wants CPU memory.
-- **O10 — Name, licence, trademark.** The repository is QCBridgeN. Its
-  licence is the owner's choice (MIT proposed; closed is equally fine for
-  the SDK). The NDI headers are never committed; the build finds the SDK
-  where the installer put it, as QCBridgeAE finds Adobe's. The NDI mark
-  appears only in a compatibility statement with the ® and the owner
-  notice, never in a product name.
+- **O10 — Name, licence, trademark.** The repository is QCBridgeN, MIT.
+  The NDI headers are never committed; the build finds the SDK where the
+  installer put it, as QCBridgeAE finds Adobe's. The NDI mark appears only
+  in a compatibility statement with the ® and the owner notice, never in a
+  product name.
 - **O11 — The ring code is dual-licensed.** `src/common/surface/` in
   QCBridgeAE (frame ring, audio ring, process-alive) gets an MIT licence
   from its copyright holder, with SPDX headers, so it can be vendored into
   this repository. QCView's vendored copy already claims MIT in its header
   comment; after this step that claim is true.
+- **O12 — Sinks are full applications.** `QCBridgeN.app` in `/Applications`
+  and `C:\Program Files\QCBridgeN\` on Windows, with their own installers,
+  icons and menu-bar or tray presence. A user can start one from the Dock
+  or Start menu, or QCView can. The manifest (id, name, executable,
+  protocol version) lives inside the bundle; the installer registers a
+  pointer to it where QCView looks (`/Library/Application
+  Support/QCView/Outputs/<id>.json` on macOS, `HKLM\Software\QCView\Outputs\<id>`
+  on Windows). Registration, not scanning: QCView lists what installers
+  told it about.
+- **O13 — Lifecycle: whoever started it owns it.** The rings are QCView's
+  and exist while the output is enabled. A sink, however it was started,
+  opens its rings by name when they exist and waits when they don't,
+  showing "waiting for QCView" and, as an option, keeping its wire source
+  alive with a slate so downstream routing holds. Enabling an output in
+  QCView creates the rings and starts the sink if it is not already
+  running; QCView marks that launch (a flag in the header the sink reads
+  at attach). Disabling retires the rings: a sink QCView started quits; a
+  sink the user started goes back to waiting. QCView restarts a sink it
+  started that exits with the rings still live, with backoff and a cap
+  (three in a minute, then it reports and stops); a user-started sink is
+  reported only. QCView quitting or crashing retires the rings or leaves a
+  dead producer pid; the sink notices either, returns to waiting, and
+  reattaches when the rings come back. Sleep and wake are the same case
+  seen through heartbeats. Protocol mismatch is a refusal with a message
+  on whichever side is older.
+- **O14 — Included layers default on.** The NDI request asks for the
+  composite with safety guides and annotations included; the Output
+  section can turn either off per output. QCView's guides are the guides.
 
 ## The protocol, on one page
 
@@ -120,14 +147,17 @@ property (the bytes a sink reads), not on internal state.
 the README names the split. Re-vendor into QCView so its header comment is
 accurate. Exit: the commit exists and the copyright holder has signed off.
 
-**P1 — Protocol and probe (QCBridgeAE ring code, QCBridgeN probe).** Make
+**P1 — Protocol, lifecycle and probe (QCBridgeAE ring code, QCBridgeN
+probe).** Make
 the ring generic over its descriptor so the output ring is a sibling of
 the Transmit ring, not a fork. Add the consumer side of the header
 (heartbeat, request, status) and the reply. `qcvo-probe` in this
 repository, MIT, plays both parts: as a fake consumer it writes a request,
 dumps frames, samples pixels and counts audio continuity; as a fake
-producer it feeds a plugin under test without QCView. Unit tests beside
-the audio ring tests. Exit: tests pass on both OSes (tracker items in
+producer it feeds a plugin under test without QCView, and it can retire
+its rings, die with them live, and come back, so every O13 transition is
+a test before either real side exists. Unit tests beside the audio ring
+tests. Exit: tests pass on both OSes (tracker items in
 `lab/TRACKING-windows.md`).
 
 **P2 — The bus in QCView, macOS first.** Output pass on the render
@@ -159,10 +189,10 @@ plugin measured; behaviour across QCView quit and relaunch recorded.
 same audio tap, the plugin with the NDI Runtime installed. Tracker items
 from the day P2 lands, run from the Mac seat.
 
-**P5 — Packaging and release.** Plugin installers (pkg, Setup) carrying
-only the redistributable runtime files the SDK documentation names;
-manifest install location; a QCView release that includes the bus; docs
-page. The release gate is the same as before: nothing ships until both
+**P5 — Packaging and release.** Application installers (pkg, Setup)
+carrying only the redistributable runtime files the SDK documentation
+names, writing the registration from O12; a QCView release that includes
+the bus; docs page. The release gate is the same as before: nothing ships until both
 platforms are built and measured.
 
 **Later, by design already allowed:** SRT sink (could live in QCView
@@ -171,12 +201,12 @@ SDK, plugin); AJA sink (NTV2 is MIT, plugin for uniformity); Syphon/Spout
 publish of the same output pass as a bonus for existing setups; HDR
 transfer targets and P216.
 
-## Open for the owner
+## Settled with the owner (2026-10-11)
 
-1. Licence of this repository: MIT, or closed.
-2. Manifest and plugin install location on each OS.
-3. Whether QCView restarts a plugin that exits, or only reports it.
-4. Default included layers for the NDI request (guides on or off).
+MIT (O10); full applications with installer registration (O12); the
+lifecycle rule in O13, which the owner called the hard part and should be
+the first thing the probe and the fake producer exercise; guides and
+annotations on by default (O14).
 
 ## Measurements the plan owes
 
