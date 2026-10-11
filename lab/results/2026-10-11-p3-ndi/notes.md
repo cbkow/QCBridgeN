@@ -53,3 +53,10 @@ the NDI stream and reported what arrived.
 - Windows: the sink's build on the box (Qt + the Windows NDI SDK) waits
   on QCView's D3D11 output pass (tracker), since without it there are no
   frames to send there.
+
+## By hand (chris, 2026-10-11 evening)
+
+NDI Video Monitor on the same Mac, QCView started the sink from the
+registered manifest, the 5.1 test clip playing: picture and audio as in
+the viewport, latency "barely noticeable" locally. The first look at the
+stream by a person.
