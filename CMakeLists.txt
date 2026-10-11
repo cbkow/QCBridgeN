@@ -74,7 +74,16 @@ if(NDI_INCLUDE_DIR)
         src/sink/bus_sink.h
         src/sink/settings_dialog.cpp
         src/sink/settings_dialog.h
-        src/icons/icons.qrc
+    )
+    # The tray and app icons as resources. qt_standard_project_setup turns
+    # on AUTOMOC and AUTOUIC but not AUTORCC, so a .qrc listed as a source
+    # is silently not compiled — the first installed build had an empty
+    # menu-bar item for exactly that reason.
+    qt_add_resources(QCBridgeN "icons" PREFIX "/icons" BASE src/icons FILES
+        src/icons/tray-mac-live.png
+        src/icons/tray-mac-idle.png
+        src/icons/tray-win-64.png
+        src/icons/QCBridgeN-mac-1024.png
     )
     target_compile_definitions(QCBridgeN PRIVATE QCBRIDGEN_VERSION="${PROJECT_VERSION}")
     target_link_libraries(QCBridgeN PRIVATE qcbridgen_ndi qcbae_wire Qt6::Core Qt6::Gui Qt6::Widgets)

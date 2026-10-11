@@ -1,9 +1,0 @@
-<!DOCTYPE RCC>
-<RCC version="1.0">
-    <qresource prefix="/icons">
-        <file>tray-mac-live.png</file>
-        <file>tray-mac-idle.png</file>
-        <file>tray-win-64.png</file>
-        <file>QCBridgeN-mac-1024.png</file>
-    </qresource>
-</RCC>

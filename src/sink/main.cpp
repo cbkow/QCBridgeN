@@ -110,6 +110,7 @@ int main(int argc, char **argv)
     QSystemTrayIcon *tray = nullptr;
     QAction *stateAct = nullptr, *detailAct = nullptr;
     if (!cli.isSet("headless") && QSystemTrayIcon::isSystemTrayAvailable()) {
+        if (makeIcon(false).isNull()) std::fprintf(stderr, "QCBridgeN: tray icon resource missing — the menu-bar item would be blank\n");
         tray = new QSystemTrayIcon(makeIcon(false), &app);
         auto *menu = new QMenu();
         stateAct  = menu->addAction(QStringLiteral("QCBridgeN: starting"));

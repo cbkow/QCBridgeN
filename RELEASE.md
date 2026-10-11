@@ -55,6 +55,12 @@ own, for a pkg built without `--notarize`.
   virtual keyboard, which links Qt Quick: 44 MB. `build-pkg.sh` prunes to
   what the binary and the kept plugins link, transitively, then runs the
   staged app headless to prove it still starts and finds its NDI runtime.
+- **Resources are not compiled by accident.** `qt_standard_project_setup`
+  turns on AUTOMOC and AUTOUIC, not AUTORCC: a `.qrc` listed among the
+  sources is silently ignored, the icons come back null, and the menu-bar
+  item is an invisible blank — which is what the first installed 0.0.1
+  did. The icons go through `qt_add_resources`, and the app warns at
+  start if the tray icon resource is missing.
 - **Frameworks holds code only.** The NDI licence text lives in Resources;
   codesign refuses a plain file under Frameworks.
 - **The NDI runtime inside the app** is the SDK's `libndi.dylib`, allowed
