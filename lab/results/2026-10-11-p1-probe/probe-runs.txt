@@ -1,0 +1,105 @@
+### run 1 — producer
+created /qcview-out-probe (pid 55339, slot capacity 66355200 bytes, user-started) + audio ring
+t=  0.3 s  consumer attached: pid 55345
+t=  0.3 s  request 1: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+t=  0.3 s  reply: accepted "1920x1080 BGRA8 from qcvo-probe"
+t=  0.3 s  status: "qcvo-probe consuming"
+t=  1.0 s  frames 19  audio frames 48128  consumer present (seen seq 19)
+t=  2.0 s  frames 44  audio frames 96256  consumer present (seen seq 44)
+t=  3.0 s  frames 69  audio frames 144384  consumer present (seen seq 69)
+t=  4.0 s  frames 94  audio frames 192512  consumer present (seen seq 94)
+t=  4.4 s  consumer gone
+t=  5.0 s  frames 103  audio frames 240640  consumer absent (seen seq 101)
+done: 103 frames, 288768 audio frames
+
+### run 1 — consumer
+opened /qcview-out-probe: producer pid 55339 (alive), protocol 1, launched-by-producer no, audio ring open
+request: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+audio session: 48000 Hz, 2 ch, flags 0x0
+reply: accepted 1920x1080 BGRA8 transfer 1 content 1 layers 0x3 "1920x1080 BGRA8 from qcvo-probe"
+frame seq 1: 1920x1080 BGRA8 row 7680 content 1 layers 0x3 flags 0x11 pts 0.000 s src #0 @ 25/1 tc 00000000  centre bytes ff 00 ff ff
+t=  1.0 s  frames 26  audio packets 47 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+t=  2.0 s  frames 51  audio packets 94 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+t=  3.0 s  frames 76  audio packets 141 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+frame seq 100: 1920x1080 BGRA8 row 7680 content 1 layers 0x3 flags 0x11 pts 3.921 s src #99 @ 25/1 tc 00000318  centre bytes ff 00 ff ff
+dumped the last frame to /private/tmp/claude-501/-Users-chris-Documents-GitHub-QCBridgeAE/6add1400-f89f-4f49-a39a-9af92b9d6469/scratchpad/probe/last.ppm
+stopped: time is up. 101 frames in 3.964 s = 25.22 fps, 187 audio packets, 0 gaps, 0 dropped, 0 muted; request accepted
+
+### run 2 — producer
+created /qcview-out-probe (pid 55378, slot capacity 66355200 bytes, user-started) + audio ring
+t=  0.5 s  consumer attached: pid 55380
+t=  0.5 s  request 1: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+t=  0.5 s  reply: accepted "1920x1080 BGRA8 from qcvo-probe"
+t=  0.5 s  status: "qcvo-probe consuming"
+t=  1.0 s  frames 14  audio frames 48128  consumer present (seen seq 14)
+retired the rings at 2.0 s
+done: 39 frames, 96256 audio frames
+
+### run 2 — consumer
+opened /qcview-out-probe: producer pid 55378 (alive), protocol 1, launched-by-producer no, audio ring open
+request: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+audio session: 48000 Hz, 2 ch, flags 0x0
+reply: accepted 1920x1080 BGRA8 transfer 1 content 1 layers 0x3 "1920x1080 BGRA8 from qcvo-probe"
+frame seq 1: 1920x1080 BGRA8 row 7680 content 1 layers 0x3 flags 0x11 pts 0.000 s src #0 @ 25/1 tc 00000000  centre bytes ff 00 ff ff
+t=  1.0 s  frames 26  audio packets 46 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+stopped: producer retired the ring. 39 frames in 1.480 s = 25.66 fps, 70 audio packets, 0 gaps, 0 dropped, 0 muted; request accepted
+
+### run 3 — producer
+created /qcview-out-probe (pid 55569, slot capacity 66355200 bytes, user-started) + audio ring
+t=  0.5 s  consumer attached: pid 55571
+t=  0.5 s  request 1: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+t=  0.5 s  reply: accepted "1920x1080 BGRA8 from qcvo-probe"
+t=  0.5 s  status: "qcvo-probe consuming"
+t=  1.0 s  frames 14  audio frames 48128  consumer present (seen seq 14)
+dying at 2.0 s without cleanup (39 frames published)
+
+### run 3 — consumer
+opened /qcview-out-probe: producer pid 55569 (alive), protocol 1, launched-by-producer no, audio ring open
+request: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+audio session: 48000 Hz, 2 ch, flags 0x0
+reply: accepted 1920x1080 BGRA8 transfer 1 content 1 layers 0x3 "1920x1080 BGRA8 from qcvo-probe"
+frame seq 1: 1920x1080 BGRA8 row 7680 content 1 layers 0x3 flags 0x11 pts 0.001 s src #0 @ 25/1 tc 00000000  centre bytes ff 00 ff ff
+t=  1.0 s  frames 26  audio packets 47 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+stopped: producer is dead (pid gone). 39 frames in 1.483 s = 25.61 fps, 70 audio packets, 0 gaps, 0 dropped, 0 muted; request accepted
+
+### run 4 — producer
+created /qcview-out-probe (pid 55575, slot capacity 66355200 bytes, user-started) + audio ring
+t=  0.5 s  consumer attached: pid 55577
+t=  0.5 s  request 1: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+t=  0.5 s  reply: accepted "1920x1080 BGRA8 from qcvo-probe"
+t=  0.5 s  status: "qcvo-probe consuming"
+t=  1.0 s  frames 14  audio frames 48128  consumer present (seen seq 14)
+t=  1.6 s  consumer gone
+t=  2.0 s  frames 30  audio frames 96256  consumer absent (seen seq 30)
+t=  3.0 s  frames 30  audio frames 144384  consumer absent (seen seq 30)
+t=  4.0 s  frames 30  audio frames 192512  consumer absent (seen seq 30)
+done: 30 frames, 240640 audio frames
+
+### run 4 — consumer
+opened /qcview-out-probe: producer pid 55575 (alive), protocol 1, launched-by-producer no, audio ring open
+request: 1920x1080 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+audio session: 48000 Hz, 2 ch, flags 0x0
+reply: accepted 1920x1080 BGRA8 transfer 1 content 1 layers 0x3 "1920x1080 BGRA8 from qcvo-probe"
+frame seq 1: 1920x1080 BGRA8 row 7680 content 1 layers 0x3 flags 0x11 pts 0.001 s src #0 @ 25/1 tc 00000000  centre bytes ff 00 ff ff
+t=  1.0 s  frames 26  audio packets 47 (gaps 0, dropped 0, muted 0)  producer alive  state 0
+dying after 30 frames without closing
+
+### run 5 — producer
+created /qcview-out-probe (pid 55606, slot capacity 66355200 bytes, launched-by-producer) + audio ring
+t=  0.5 s  consumer attached: pid 55612
+t=  0.5 s  request 1: 7680x4320 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+t=  0.5 s  reply: too large "above the 3840x2160 canvas cap"
+t=  0.5 s  status: "qcvo-probe consuming"
+t=  1.0 s  frames 0  audio frames 48128  consumer present (seen seq 0)
+t=  2.0 s  frames 0  audio frames 96256  consumer present (seen seq 0)
+t=  2.5 s  consumer gone
+done: 0 frames, 144384 audio frames
+
+### run 5 — consumer
+opened /qcview-out-probe: producer pid 55606 (alive), protocol 1, launched-by-producer yes, audio ring open
+request: 7680x4320 BGRA8 transfer 1 fit 1 content 1 layers 0x3
+audio session: 48000 Hz, 2 ch, flags 0x0
+reply: REFUSED (too large) "above the 3840x2160 canvas cap"
+t=  1.0 s  frames 0  audio packets 47 (gaps 0, dropped 0, muted 47)  producer alive  state 0
+stopped: time is up. 0 frames, 94 audio packets, 0 gaps, 0 dropped, 94 muted; request not accepted
+

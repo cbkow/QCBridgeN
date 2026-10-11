@@ -142,13 +142,16 @@ guess.
 Each phase ends with evidence in `lab/results/`, checked on the consumed
 property (the bytes a sink reads), not on internal state.
 
-**P0 — Licence groundwork (QCBridgeAE, QCView).** MIT dual-licence for
+**P0 — Licence groundwork (QCBridgeAE, QCView). DONE 2026-10-11**
+(QCBridgeAE `308536e`, QCView `2d0faab1`). MIT dual-licence for
 `src/common/surface/` with a LICENSE file in that folder and SPDX headers;
 the README names the split. Re-vendor into QCView so its header comment is
 accurate. Exit: the commit exists and the copyright holder has signed off.
 
 **P1 — Protocol, lifecycle and probe (QCBridgeAE ring code, QCBridgeN
-probe).** Make
+probe). DONE 2026-10-11** (QCBridgeAE `5849977`, this repo's
+`tools/qcvo-probe`, `lab/results/2026-10-11-p1-probe/`; 9/9 tests on the
+Mac, 7/7 on Windows). Make
 the ring generic over its descriptor so the output ring is a sibling of
 the Transmit ring, not a fork. Add the consumer side of the header
 (heartbeat, request, status) and the reply. `qcvo-probe` in this
