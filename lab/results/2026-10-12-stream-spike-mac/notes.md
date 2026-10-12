@@ -83,3 +83,36 @@ Audio (A1), a settings row and start/stop (A1), Windows / Media
 Foundation (A2), RTMP and reconnect (A3). After the listener closed the
 muxer logged a write error per frame and kept going; reconnect is A3's.
 The latency number against a Louper viewer is the next measurement.
+
+## Addendum: A1 on the Mac (same day, evening; QCView dd4f562d)
+
+No Louper room exists yet (Chris: "build it blind and use ffplay for
+testing"), so the Louper measurement waits. A1 added the product
+plumbing and was measured against the same local listener.
+
+What changed: AAC audio from the players' tap (1024-sample frames,
+silence inserted while the tap is idle so the stream's audio never
+stops), a Settings ▸ Output "Stream" block (Start/Stop, URL, key, video
+bitrate, resolution, frame rate, profile, audio bitrate, SRT latency,
+counters while running), QSettings-backed, sessions start and stop from
+the panel and are torn down before the renderer on quit.
+
+| check | result |
+|---|---|
+| audio continuity | 1407 AAC packets in 30 s, every pts delta 1920 ticks (1024 samples), none missing |
+| A/V alignment, before | tone onset 3.351 s vs picture motion 3.40 s: audio one frame early |
+| A/V alignment, after | audio stamped one video period later: 3.446 s vs 3.44 s, 6 ms apart |
+| source switching | `--switch-test` 30 s (single/dual/clear/activate, random): clock steady at 25/s, no stream errors, 751 frames received |
+| stop/start cycles | 16 sessions back to back at 3 s each, every one connected and stopped cleanly; RSS 268,224 KB at cycle 16 → 268,320 KB at cycle 19 |
+| stop during connect | ends the connect at once ("Immediate exit requested"); the user's Stop clears the message |
+| quit while streaming | clean, texture pools empty |
+
+Why the audio offset: a new picture waits up to one clock period before
+the paced thread encodes it; audio frames are cut from the tap as they
+arrive. One period of audio delay puts the two within a few ms at 25p
+(the tone's -40 dB onset vs the first frame whose luma differs from the
+paused one).
+
+Still to come: the Louper room run and its latency number (needs a
+room), Windows / Media Foundation (A2), RTMP and reconnect (A3; after a
+listener drops the muxer logs a write error per packet and keeps going).
