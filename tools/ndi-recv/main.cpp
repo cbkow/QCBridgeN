@@ -78,6 +78,9 @@ int main(int argc, char **argv)
     uint64_t frames = 0, audioFrames = 0, audioSamples = 0;
     double ageSum = 0, ageMax = 0, secAgeSum = 0, secAgeMax = 0;   // ms
     uint64_t ageN = 0, secAgeN = 0;
+    // A frame whose pixels fingerprint like the previous one is a repeat the
+    // sender published as a new frame (512 bytes from each of 16 rows).
+    uint64_t prevFp = 0, dups = 0, secDups = 0;
     int w = 0, h = 0, fpsN = 0, fpsD = 0;
     unsigned char centre[4] = {0, 0, 0, 0};
     const auto start = std::chrono::steady_clock::now();
@@ -100,6 +103,18 @@ int main(int argc, char **argv)
                 if (age > secAgeMax) secAgeMax = age;
             }
             if (v.p_data && v.xres > 0 && v.yres > 0) {
+                if (v.line_stride_in_bytes >= 1024) {
+                    uint64_t fp = 1469598103934665603ULL;
+                    for (int i = 0; i < 16; ++i) {
+                        const int y = static_cast<int>((static_cast<int64_t>(v.yres) * (2 * i + 1)) / 32);
+                        const unsigned char *row = v.p_data + static_cast<size_t>(y) * v.line_stride_in_bytes
+                                                 + ((static_cast<size_t>(v.line_stride_in_bytes) / 2) & ~size_t(7)) - 256;
+                        uint64_t word = 0;
+                        for (int k = 0; k < 64; ++k) { std::memcpy(&word, row + k * 8, 8); fp ^= word; fp *= 1099511628211ULL; }
+                    }
+                    if (prevFp != 0 && fp == prevFp) { ++dups; ++secDups; }
+                    prevFp = fp;
+                }
                 const unsigned char *px = v.p_data + static_cast<size_t>(v.yres / 2) * v.line_stride_in_bytes
                                         + static_cast<size_t>(v.xres / 2) * 4;
                 std::memcpy(centre, px, 4);
@@ -115,14 +130,15 @@ int main(int argc, char **argv)
         }
         const auto now = std::chrono::steady_clock::now();
         if (now - lastReport >= std::chrono::seconds(1)) {
-            std::printf("t=%4.1f s  video %llu (+%llu)  %dx%d @ %d/%d  age ms mean %.1f max %.1f  centre BGRA %02x %02x %02x %02x  audio frames %llu samples %llu  connections %d\n",
+            std::printf("t=%4.1f s  video %llu (+%llu, %llu repeats)  %dx%d @ %d/%d  age ms mean %.1f max %.1f  centre BGRA %02x %02x %02x %02x  audio frames %llu samples %llu  connections %d\n",
                         std::chrono::duration<double>(now - start).count(),
                         static_cast<unsigned long long>(frames), static_cast<unsigned long long>(frames - framesAtReport),
+                        static_cast<unsigned long long>(secDups),
                         w, h, fpsN, fpsD, secAgeN ? secAgeSum / static_cast<double>(secAgeN) : 0.0, secAgeMax,
                         centre[0], centre[1], centre[2], centre[3],
                         static_cast<unsigned long long>(audioFrames), static_cast<unsigned long long>(audioSamples),
                         api->recv_get_no_connections(recv));
-            secAgeSum = 0; secAgeMax = 0; secAgeN = 0;
+            secAgeSum = 0; secAgeMax = 0; secAgeN = 0; secDups = 0;
             std::fflush(stdout);
             framesAtReport = frames;
             lastReport = now;
@@ -143,8 +159,8 @@ int main(int argc, char **argv)
             std::printf("dumped the last frame to %s\n", dump.c_str());
         }
     }
-    std::printf("done: %llu video frames in %.1f s = %.2f fps, age ms mean %.1f max %.1f over %llu stamped, %llu audio frames, %llu samples\n",
-                static_cast<unsigned long long>(frames), seconds, static_cast<double>(frames) / seconds,
+    std::printf("done: %llu video frames in %.1f s = %.2f fps, %llu repeats, age ms mean %.1f max %.1f over %llu stamped, %llu audio frames, %llu samples\n",
+                static_cast<unsigned long long>(frames), seconds, static_cast<double>(frames) / seconds, static_cast<unsigned long long>(dups),
                 ageN ? ageSum / static_cast<double>(ageN) : 0.0, ageMax, static_cast<unsigned long long>(ageN),
                 static_cast<unsigned long long>(audioFrames), static_cast<unsigned long long>(audioSamples));
     api->recv_destroy(recv);
