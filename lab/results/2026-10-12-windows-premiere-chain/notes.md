@@ -79,3 +79,22 @@ looks different by eye.
 Two files side by side (`--simulate-user A B`): the receiver's frame dump
 is the side-by-side composite, both sides correct. Live Premiere on A with
 a file on B: see the addendum below.
+
+### Addendum: live Premiere on A, file on B, transport paused
+
+Before: the receiver got one frame in 12 s while Premiere played — the
+D3D11 dual compositor re-uploaded the live side's latest frame every
+draw but nothing recorded it as new, and the output stamp in dual view
+moved only with the master frame index. So a paused dual view with a
+live side went out frozen; it moved only while QCView itself played,
+which is how it was reported ("live sources are attached to the
+play/pause button, for NDI output").
+
+Fix (QCView e5f15a23, and 5c2bc614 for the Metal pass, same count): the
+dual compositor counts each side's newly resolved frame; the renderer
+folds a change into `displayedFrames`, which the stamp already reads.
+
+After, same run (QCView paused in dual, Premiere playing from the
+start): **288 frames in 12 s = 24.00 fps, 0 repeats** once past the
+black leader, declared 24000/1001, hop age 38–41 ms. The frame dump is
+the side-by-side composite with the live picture on the left.
