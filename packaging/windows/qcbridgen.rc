@@ -1,0 +1,2 @@
+// QCBridgeN — Windows resources: the application icon (tray, Start menu, Explorer).
+IDI_ICON1 ICON "../../src/icons/QCBridgeN.ico"

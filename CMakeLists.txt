@@ -86,6 +86,12 @@ if(NDI_INCLUDE_DIR)
         src/icons/QCBridgeN-mac-1024.png
     )
     target_compile_definitions(QCBridgeN PRIVATE QCBRIDGEN_VERSION="${PROJECT_VERSION}")
+    # A tray application: no console on Windows (the first Setup opened a
+    # command window), and the exe carries the icon.
+    set_target_properties(QCBridgeN PROPERTIES WIN32_EXECUTABLE TRUE)
+    if(WIN32)
+        target_sources(QCBridgeN PRIVATE packaging/windows/qcbridgen.rc)
+    endif()
     target_link_libraries(QCBridgeN PRIVATE qcbridgen_ndi qcbae_wire Qt6::Core Qt6::Gui Qt6::Widgets)
     if(NOT MSVC)
         target_compile_options(QCBridgeN PRIVATE -Wall -Wextra)
