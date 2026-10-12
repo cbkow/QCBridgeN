@@ -200,7 +200,10 @@ Studio Monitor shows the feed; frame-to-receiver latency measured with a
 counter burn-in; receiver audio/video offset measured; CPU cost of the
 plugin measured; behaviour across QCView quit and relaunch recorded.
 
-**P4 — Windows twins.** D3D11 output pass (staging + one memcpy), the
+**P4 — Windows twins. LANDED 2026-10-11** (QCView `f4f43840`, QCBridgeN
+`cdd077c`, `lab/results/2026-10-11-p4-windows/`: the D3D11 pass, the sink
+built on the box, 1080p at 25 fps and 48 kHz received over NDI, the
+unsigned Setup in dist). D3D11 output pass (staging + one memcpy), the
 same audio tap, the plugin with the NDI Runtime installed. Tracker items
 from the day P2 lands, run from the Mac seat.
 

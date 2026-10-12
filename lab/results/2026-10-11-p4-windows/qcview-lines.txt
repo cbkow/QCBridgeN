@@ -1,0 +1,22 @@
+[20:17:03.074 t=6812] I  OutputBus: output 'ndi' (QCBridgeN (NDI)) from C:/qcb-lab/outputs/ndi.json
+[20:17:03.113 t=6812] I  WasapiAudioDevice: initialized (48000 Hz, 2 ch, buffer=1056 frames, 10 ms target)
+[20:17:04.476 t=6812] I  OutputBus: ndi enabled - rings /qcview-out-ndi, audio ring beside it
+[20:17:04.476 t=6812] I  D3D11PlayerRenderer: 1 output target(s)
+[20:17:04.497 t=6812] I  OutputBus: ndi: started <user>\Documents\GitHub\QCBridgeN\build\stage\QCBridgeN.exe --id ndi --name QCView
+[20:17:04.497 t=6812] I  D3D11PlayerRenderer: 1 output target(s)
+[20:17:04.822 t=6812] I  OutputBus: ndi: request 1 (1920x1080 fmt 1 transfer 1 content 1 layers 0x3) -> accepted "1920x1080 BGRA8 SDR from QCView"
+[20:17:04.822 t=6812] I  OutputBus: ndi: sink attached (pid 38868)
+[20:17:05.423 t=2956] I  D3D11PlayerRenderer: output pass 1920x1080 BGRA8 (content 1, layers 0x3)
+[20:17:08.804 t=2956] I  D3D11PlayerRenderer: output publish (1 so far): changed frames
+[20:17:09.805 t=2956] I  D3D11PlayerRenderer: output publish (26 so far): changed frames
+[20:17:10.851 t=2956] I  D3D11PlayerRenderer: output publish (52 so far): changed frames
+[20:17:11.851 t=2956] I  D3D11PlayerRenderer: output publish (77 so far): changed frames
+[20:17:12.853 t=2956] I  D3D11PlayerRenderer: output publish (102 so far): changed frames
+[20:17:13.885 t=2956] I  D3D11PlayerRenderer: output publish (128 so far): changed frames
+[20:17:14.886 t=2956] I  D3D11PlayerRenderer: output publish (153 so far): changed frames
+...
+[20:17:04.476 t=6812] I  OutputBus: ndi enabled - rings /qcview-out-ndi, audio ring beside it
+[20:17:04.497 t=6812] I  OutputBus: ndi: started <user>\Documents\GitHub\QCBridgeN\build\stage\QCBridgeN.exe --id ndi --name QCView
+[20:17:04.822 t=6812] I  OutputBus: ndi: request 1 (1920x1080 fmt 1 transfer 1 content 1 layers 0x3) -> accepted "1920x1080 BGRA8 SDR from QCView"
+[20:17:04.822 t=6812] I  OutputBus: ndi: sink attached (pid 38868)
+enabled/ndi reset to false

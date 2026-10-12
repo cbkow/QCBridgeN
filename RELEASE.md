@@ -81,7 +81,17 @@ cat "/Library/Application Support/QCView/Outputs/ndi.json"
 
 ## Windows
 
-Not packaged yet: the sink builds there once QCView's D3D11 output pass
-lands (QCBridgeAE `lab/TRACKING-windows.md`); then an Inno Setup installer
-into `Program Files\QCBridgeN` that writes `%ProgramData%\QCView\Outputs\ndi.json`,
-with the NDI runtime from the SDK's redistributable installer.
+On the Windows box, from a Release build (`cmake -S . -B build-release -G
+Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=C:\Qt\6.11.1\msvc2022_64
+"-DNDI_SDK_DIR=C:\Program Files\NDI\NDI 6 SDK"` under vcvars64):
+
+    packaging\windows\build-setup.cmd
+    → dist\QCBridgeN-<version>-Setup-x64.exe
+
+It stages the exe with `windeployqt` (Core, Gui, Widgets, platforms,
+styles only), the NDI runtime DLL and its licence file from the SDK's
+`Bin\x64`, and `vc_redist.x64.exe`, then runs Inno Setup 6 on
+`qcbridgen.iss`. The installer writes the registration manifest to
+`%ProgramData%\QCView\Outputs\ndi.json` and removes it on uninstall. The
+Setup is not code-signed; signing is a certificate away (`signtool` on the
+staged exe and the Setup), the way QCView's sideload MSIX is signed.

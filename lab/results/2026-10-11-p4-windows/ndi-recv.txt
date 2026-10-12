@@ -1,0 +1,14 @@
+found '<the-box> (QCView)' at <addr>:5961
+t= 1.0 s  video 25 (+25)  1920x1080 @ 25/1  centre BGRA 8e 39 32 ff  audio frames 101 samples 48480  connections 1
+t= 2.0 s  video 51 (+26)  1920x1080 @ 25/1  centre BGRA ca 25 ff ff  audio frames 201 samples 96480  connections 1
+t= 3.0 s  video 76 (+25)  1920x1080 @ 25/1  centre BGRA 8e 39 32 ff  audio frames 301 samples 144480  connections 1
+t= 4.0 s  video 101 (+25)  1920x1080 @ 25/1  centre BGRA 01 4c ff ff  audio frames 401 samples 192480  connections 1
+t= 5.0 s  video 126 (+25)  1920x1080 @ 25/1  centre BGRA 8e 39 32 ff  audio frames 502 samples 240960  connections 1
+t= 6.0 s  video 151 (+25)  1920x1080 @ 25/1  centre BGRA 00 e9 c1 ff  audio frames 602 samples 288960  connections 1
+t= 7.0 s  video 176 (+25)  1920x1080 @ 25/1  centre BGRA 8e 39 32 ff  audio frames 702 samples 336960  connections 1
+t= 8.0 s  video 201 (+25)  1920x1080 @ 25/1  centre BGRA 38 da 01 ff  audio frames 802 samples 384960  connections 1
+t= 9.0 s  video 226 (+25)  1920x1080 @ 25/1  centre BGRA 8e 39 32 ff  audio frames 903 samples 433440  connections 1
+t=10.0 s  video 251 (+25)  1920x1080 @ 25/1  centre BGRA ff b1 01 ff  audio frames 1003 samples 481440  connections 1
+t=11.0 s  video 276 (+25)  1920x1080 @ 25/1  centre BGRA 8e 39 32 ff  audio frames 1104 samples 529920  connections 1
+dumped the last frame to C:\qcb-lab\ndi-recv-last.ppm
+done: 300 video frames in 12.0 s = 25.00 fps, 1201 audio frames, 576480 samples

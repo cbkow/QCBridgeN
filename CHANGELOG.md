@@ -2,7 +2,7 @@
 
 ## 0.0.1 — 2026-10-11
 
-First release, macOS.
+First release, macOS and Windows.
 
 - **The sink.** A menu-bar application QCView starts when its Output is
   switched on: the viewport (single or dual view, splits, wipes, difference,
@@ -14,10 +14,11 @@ First release, macOS.
 - **Lifecycle.** Started by QCView, it quits with QCView or when the output
   is switched off; started by hand, it waits for QCView and keeps the NDI
   source up between sessions.
-- **Installer.** A notarized pkg that installs the app and registers it
-  with QCView; the NDI runtime is inside the app, an installed runtime is
-  preferred when present.
+- **Installers.** macOS: a notarized pkg that installs the app and
+  registers it with QCView. Windows: a Setup that installs under Program
+  Files and registers the output (not code-signed yet). The NDI runtime is
+  inside the app on both; an installed runtime is preferred when present.
 - **Tools.** `qcvo-probe`, which plays either end of QCView's output bus,
   and `ndi-recv`, a receiver that prints what arrives.
 
-Requires QCView 2.5.4 or later and macOS 13 or later. Windows follows.
+Requires QCView 2.5.4 or later; macOS 13 or later, or Windows 10 1809 or later.

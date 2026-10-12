@@ -28,8 +28,18 @@ side B of a dual view) and which layers to include. The feed mute and the
 layers QCView allows are in QCView's own Output settings.
 
 The NDI runtime is inside the application; an installed NDI runtime is used
-instead when present. Requires macOS 13 or later. Windows comes with a later
-release.
+instead when present. Requires macOS 13 or later.
+
+## Install (Windows)
+
+Run `QCBridgeN-<version>-Setup-x64.exe` from [Releases](../../releases/latest).
+It installs to `Program Files\QCBridgeN`, registers the output with QCView
+(`%ProgramData%\QCView\Outputs\ndi.json`) and installs the Visual C++
+runtime if needed. The NDI runtime is included; an installed NDI Runtime
+(`NDI_RUNTIME_DIR_V6`) is preferred. QCBridgeN appears in the tray when
+QCView starts it. Requires Windows 10 1809 or later, x64, and QCView
+2.5.4 or later. The installer is not code-signed yet, so SmartScreen will
+ask once.
 
 ## How it works
 
