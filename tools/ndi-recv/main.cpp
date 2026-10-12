@@ -5,6 +5,11 @@
 // one hop further than the ring.
 //
 //   ndi-recv --name "QCView" [--seconds 10] [--dump last.ppm]
+//
+// Each video frame's age is the receiver's clock against the frame's
+// `timestamp`, which the sender's SDK stamps at send: on one machine
+// that is the NDI hop itself (encode, loopback, decode, the receive
+// queue), with no receiver display in the way.
 
 #include "ndi_lib.h"
 
@@ -71,6 +76,8 @@ int main(int argc, char **argv)
     if (!recv) { std::fprintf(stderr, "recv_create failed\n"); return 1; }
 
     uint64_t frames = 0, audioFrames = 0, audioSamples = 0;
+    double ageSum = 0, ageMax = 0, secAgeSum = 0, secAgeMax = 0;   // ms
+    uint64_t ageN = 0, secAgeN = 0;
     int w = 0, h = 0, fpsN = 0, fpsD = 0;
     unsigned char centre[4] = {0, 0, 0, 0};
     const auto start = std::chrono::steady_clock::now();
@@ -84,6 +91,14 @@ int main(int argc, char **argv)
         if (t == NDIlib_frame_type_video) {
             ++frames;
             w = v.xres; h = v.yres; fpsN = v.frame_rate_N; fpsD = v.frame_rate_D;
+            if (v.timestamp != NDIlib_recv_timestamp_undefined) {
+                using hns = std::chrono::duration<int64_t, std::ratio<1, 10000000>>;
+                const int64_t now100 = std::chrono::duration_cast<hns>(std::chrono::system_clock::now().time_since_epoch()).count();
+                const double age = static_cast<double>(now100 - v.timestamp) / 10000.0;
+                ageSum += age; secAgeSum += age; ++ageN; ++secAgeN;
+                if (age > ageMax) ageMax = age;
+                if (age > secAgeMax) secAgeMax = age;
+            }
             if (v.p_data && v.xres > 0 && v.yres > 0) {
                 const unsigned char *px = v.p_data + static_cast<size_t>(v.yres / 2) * v.line_stride_in_bytes
                                         + static_cast<size_t>(v.xres / 2) * 4;
@@ -100,12 +115,14 @@ int main(int argc, char **argv)
         }
         const auto now = std::chrono::steady_clock::now();
         if (now - lastReport >= std::chrono::seconds(1)) {
-            std::printf("t=%4.1f s  video %llu (+%llu)  %dx%d @ %d/%d  centre BGRA %02x %02x %02x %02x  audio frames %llu samples %llu  connections %d\n",
+            std::printf("t=%4.1f s  video %llu (+%llu)  %dx%d @ %d/%d  age ms mean %.1f max %.1f  centre BGRA %02x %02x %02x %02x  audio frames %llu samples %llu  connections %d\n",
                         std::chrono::duration<double>(now - start).count(),
                         static_cast<unsigned long long>(frames), static_cast<unsigned long long>(frames - framesAtReport),
-                        w, h, fpsN, fpsD, centre[0], centre[1], centre[2], centre[3],
+                        w, h, fpsN, fpsD, secAgeN ? secAgeSum / static_cast<double>(secAgeN) : 0.0, secAgeMax,
+                        centre[0], centre[1], centre[2], centre[3],
                         static_cast<unsigned long long>(audioFrames), static_cast<unsigned long long>(audioSamples),
                         api->recv_get_no_connections(recv));
+            secAgeSum = 0; secAgeMax = 0; secAgeN = 0;
             std::fflush(stdout);
             framesAtReport = frames;
             lastReport = now;
@@ -126,8 +143,9 @@ int main(int argc, char **argv)
             std::printf("dumped the last frame to %s\n", dump.c_str());
         }
     }
-    std::printf("done: %llu video frames in %.1f s = %.2f fps, %llu audio frames, %llu samples\n",
+    std::printf("done: %llu video frames in %.1f s = %.2f fps, age ms mean %.1f max %.1f over %llu stamped, %llu audio frames, %llu samples\n",
                 static_cast<unsigned long long>(frames), seconds, static_cast<double>(frames) / seconds,
+                ageN ? ageSum / static_cast<double>(ageN) : 0.0, ageMax, static_cast<unsigned long long>(ageN),
                 static_cast<unsigned long long>(audioFrames), static_cast<unsigned long long>(audioSamples));
     api->recv_destroy(recv);
     api->find_destroy(finder);
