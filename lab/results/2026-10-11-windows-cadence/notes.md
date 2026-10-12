@@ -35,11 +35,10 @@ regular, exactly what a receiver shows as a 12 fps judder. The Metal
 pass commits from the command buffer's completion handler and never had
 the problem (P3: 25 of 25).
 
-Why P4 did not see it: a 25p clip on a 59 Hz display happens to leave a
-longer gap between draws than 23.976p does, and the staged exe was
-tested against a dev build whose window was not the foreground
-swapchain. Not a measurement to trust again; the controlled run above is
-the recipe (`QCV_FPS_LOG=1` for QCView's own rate).
+Why P4 measured 25 of 25 is not established: it was a 25p clip for 12 s,
+and nothing in that run looked at the draw cadence. The controlled run
+above is the recipe from now on: a 23.976p clip, `QCV_FPS_LOG=1` for
+QCView's own rate, `ndi-recv` on the same machine, 15 s or more.
 
 ## Fix (QCView 646917ed + f0b00d96)
 
