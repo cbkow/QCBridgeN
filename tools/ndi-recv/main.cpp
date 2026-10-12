@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     double ageSum = 0, ageMax = 0, secAgeSum = 0, secAgeMax = 0;   // ms
     uint64_t ageN = 0, secAgeN = 0;
     // A frame whose pixels fingerprint like the previous one is a repeat the
-    // sender published as a new frame (512 bytes from each of 16 rows).
+    // sender published as a new frame (64 samples across each of 16 rows).
     uint64_t prevFp = 0, dups = 0, secDups = 0;
     int w = 0, h = 0, fpsN = 0, fpsD = 0;
     unsigned char centre[4] = {0, 0, 0, 0};
@@ -107,10 +107,12 @@ int main(int argc, char **argv)
                     uint64_t fp = 1469598103934665603ULL;
                     for (int i = 0; i < 16; ++i) {
                         const int y = static_cast<int>((static_cast<int64_t>(v.yres) * (2 * i + 1)) / 32);
-                        const unsigned char *row = v.p_data + static_cast<size_t>(y) * v.line_stride_in_bytes
-                                                 + ((static_cast<size_t>(v.line_stride_in_bytes) / 2) & ~size_t(7)) - 256;
+                        // 64 words spread across the row, not a strip in the middle:
+                        // a side-by-side picture's middle is its seam.
+                        const unsigned char *row = v.p_data + static_cast<size_t>(y) * v.line_stride_in_bytes;
+                        const size_t usable = static_cast<size_t>(v.xres) * 4 - 8;
                         uint64_t word = 0;
-                        for (int k = 0; k < 64; ++k) { std::memcpy(&word, row + k * 8, 8); fp ^= word; fp *= 1099511628211ULL; }
+                        for (int k = 0; k < 64; ++k) { std::memcpy(&word, row + ((usable * k / 64) & ~size_t(3)), 8); fp ^= word; fp *= 1099511628211ULL; }
                     }
                     if (prevFp != 0 && fp == prevFp) { ++dups; ++secDups; }
                     prevFp = fp;
