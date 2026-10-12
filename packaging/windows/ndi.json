@@ -1,0 +1,3 @@
+{ "id": "ndi", "name": "QCBridgeN (NDI)", "protocol": 1,
+  "exec": "C:\\Program Files\\QCBridgeN\\QCBridgeN.exe",
+  "args": ["--id", "ndi"] }
