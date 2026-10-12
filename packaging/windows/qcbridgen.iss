@@ -49,4 +49,6 @@ Name: "{group}\Uninstall {#MyAppName}"; Filename: "{uninstallexe}"
 Type: files; Name: "{commonappdata}\QCView\Outputs\ndi.json"
 
 [Run]
-; Nothing starts at the end: QCView starts the sink when its output is switched on.
+; The VC++ runtime the Qt DLLs need, silently; nothing else starts at the
+; end — QCView starts the sink when its output is switched on.
+Filename: "{app}\vc_redist.x64.exe"; Parameters: "/install /quiet /norestart"; StatusMsg: "Installing the Visual C++ runtime…"; Flags: waituntilterminated skipifdoesntexist

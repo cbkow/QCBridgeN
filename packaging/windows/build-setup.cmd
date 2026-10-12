@@ -11,7 +11,7 @@ if not exist "%BUILD%\QCBridgeN.exe" ( echo ERROR: build-release\QCBridgeN.exe m
 if exist "%STAGE%" rmdir /s /q "%STAGE%"
 mkdir "%STAGE%"
 copy /y "%BUILD%\QCBridgeN.exe" "%STAGE%\" >nul
-"%QT%\bin\windeployqt.exe" --release --no-translations --no-opengl-sw --no-system-d3d-compiler --no-system-dxc-compiler --skip-plugin-types qmltooling,generic,networkinformation,tls "%STAGE%\QCBridgeN.exe" > "%~dp0..\..\build\windeployqt.log" 2>&1 || ( echo ERROR: windeployqt failed & exit /b 1 )
+"%QT%\bin\windeployqt.exe" --release --no-translations --no-opengl-sw --no-system-d3d-compiler --no-system-dxc-compiler --no-svg --no-network --no-pdf --skip-plugin-types qmltooling,generic,networkinformation,tls,imageformats,iconengines "%STAGE%\QCBridgeN.exe" > "%~dp0..\..\build\windeployqt.log" 2>&1 || ( echo ERROR: windeployqt failed & exit /b 1 )
 copy /y "%NDI%\Bin\x64\Processing.NDI.Lib.x64.dll" "%STAGE%\" >nul || ( echo ERROR: NDI runtime DLL not found & exit /b 1 )
 copy /y "%NDI%\Bin\x64\Processing.NDI.Lib.Licenses.txt" "%STAGE%\" >nul
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /Q "%~dp0qcbridgen.iss" || ( echo ERROR: Inno failed & exit /b 1 )
