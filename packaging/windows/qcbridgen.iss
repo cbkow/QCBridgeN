@@ -9,7 +9,7 @@
 ; output with QCView by writing %ProgramData%\QCView\Outputs\ndi.json.
 
 #define MyAppName "QCBridgeN"
-#define MyAppVersion "0.0.1"
+#define MyAppVersion "0.0.2"
 #define MyAppPublisher "cbkow"
 #define MyAppExeName "QCBridgeN.exe"
 #define StageDir "..\..\build\stage"
