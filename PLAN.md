@@ -51,7 +51,9 @@ way the other repos do it.
   the Output section mutes the feed alone. Muted audio is still sent, as
   zeros with a muted flag, so sinks never lose their audio cadence.
 - **O7 — RGB now, standard packings in the shader when a sink needs
-  them.** BGRA8 and RGBA16F first. P216 and v210 are well-defined formats
+  them.** BGRA8 and RGBA16F first; RGB10 (10-bit RGB in a 32-bit word,
+  the GPU's 10:10:10:2 and AJA's 10-bit RGB layout) joined on 2026-10-13
+  for the QCBridgeA sink. P216 and v210 are well-defined formats
   the output shader can write nearly for free, so they join the request's
   format list when a sink asks; CPU packing at UHD would cost
   milliseconds a frame. Card-specific work (audio embedding, cadence
