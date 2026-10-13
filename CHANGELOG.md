@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.2 — 2026-10-12
+
+- **ndi-recv.** Reports each frame's age against the SDK's send stamp (the
+  NDI hop on its own), counts frames whose pixels repeat the previous
+  frame, and takes the repeat fingerprint across the whole row so a
+  side-by-side picture's seam does not fool it.
+
+The sink itself is unchanged from 0.0.1.
+
 ## 0.0.1 — 2026-10-11
 
 First release, macOS and Windows.
