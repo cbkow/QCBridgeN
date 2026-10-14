@@ -1,3 +1,3 @@
-{ "id": "ndi", "name": "QCBridgeN (NDI)", "protocol": 1,
+{ "id": "ndi", "name": "QCBridgeN (NDI)", "label": "NDI", "product": "QCBridgeN", "protocol": 1,
   "exec": "C:\\Program Files\\QCBridgeN\\QCBridgeN.exe",
   "args": ["--id", "ndi"] }

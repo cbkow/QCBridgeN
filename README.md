@@ -73,9 +73,12 @@ probe builds.
 from the directory `QCV_OUTPUT_MANIFEST_DIR` names as well as from
 Application Support/QCView/Outputs:
 
-    { "id": "ndi", "name": "QCBridgeN (NDI)", "protocol": 1,
+    { "id": "ndi", "name": "QCBridgeN (NDI)", "label": "NDI", "product": "QCBridgeN", "protocol": 1,
       "exec": "/Applications/QCBridgeN.app/Contents/MacOS/QCBridgeN",
       "args": ["--id", "ndi"] }
+
+`label` is what the Output row leads with and `product` the name shown
+muted beside it; a manifest without them gets both read out of the name.
 
 ## Privacy
 

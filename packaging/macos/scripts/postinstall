@@ -6,7 +6,7 @@ set -e
 DIR="/Library/Application Support/QCView/Outputs"
 mkdir -p "$DIR"
 cat > "$DIR/ndi.json" <<'EOF'
-{ "id": "ndi", "name": "QCBridgeN (NDI)", "protocol": 1,
+{ "id": "ndi", "name": "QCBridgeN (NDI)", "label": "NDI", "product": "QCBridgeN", "protocol": 1,
   "exec": "/Applications/QCBridgeN.app/Contents/MacOS/QCBridgeN",
   "args": ["--id", "ndi"] }
 EOF
